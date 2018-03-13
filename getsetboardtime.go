@@ -75,7 +75,7 @@ func transmit(payload string) string {
     }
 
     // Hello Central!
-    conn, _ := net.Dial("tcp", boardIP+":"+boardPort)
+    conn, _ := net.Dial("udp", boardIP+":"+boardPort)
     conn.Write(buf.Bytes())
 
     message := make([]byte, payloadBuffer)
