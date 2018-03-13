@@ -197,7 +197,7 @@ func hexToDec(hexVal string) int64 {
 // GetAccessListCount queries the board for the number of recorded
 // events. We use it in GetAccessList
 func GetAccessListCount() int {
-	const grcVerb = "b4"
+	const grcVerb = "b4" // 0xb4 gets the count of events
 	payload := buildPrelude(grcVerb)
 	// Now we have to pad the end so we get 64 bytes
 	payload += pad("0", 128-len(payload))
@@ -227,7 +227,7 @@ func parseAccessRecord(payload string) AccessRecord {
 
 // GetAccessList returns the list of systems accessed
 func GetAccessList(count int) []AccessRecord {
-	const grVerb = "b0"
+	const grVerb = "b0" // 0xb0 is the verb to get events
 	var records []AccessRecord
 
 	// Okay, so we need to know what record to start from
