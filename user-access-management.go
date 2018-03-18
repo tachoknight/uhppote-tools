@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"flag"
 )
 
 // All commands *must* begin with this
@@ -304,20 +305,34 @@ func DelUser(tagSN string) (bool, error) {
 
 func main() {
 
+	opFlag := flag.String("op", "get", "add/del/get")
+	tagFlag := flag.Int("tag", 0, "The tag number")
+
+	flag.Parse()
+
+	if *tagFlag == 0 {
+		fmt.Println("Need a tag number!")
+		return
+	}
+
 	// This is the tag we want to work with, as reported by
 	// the RFID reader
-	origTagNum := 10978235
-	fixedTag, err := convertTagNum(origTagNum)
+	fixedTag, err := convertTagNum(*tagFlag)
 	if err != nil {
-		fmt.Println("Couldn't convert tag: ", origTagNum, err)
+		fmt.Println("Couldn't convert tag: ", *tagFlag, err)
 	}
 
 	fmt.Printf("Going to work with tag %s\n", fixedTag)
 
-	// Now add the user's tag to the board
-	AddUser(fixedTag)
-	// Verify the user's tag is on the board
-	GetUser(fixedTag)
-	// And delete the user's tag from the board
-	DelUser(fixedTag)
+	switch(*opFlag) {
+	case "add":
+		AddUser(fixedTag)	
+	case "del":
+		DelUser(fixedTag)
+	case "get":
+		GetUser(fixedTag)
+	default:
+		fmt.Println("Unknown operation: ", *opFlag)
+		return	
+	}
 }
