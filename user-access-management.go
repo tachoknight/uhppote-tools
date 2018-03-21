@@ -108,7 +108,7 @@ func convertTagNum(tagSN int) (string, error) {
 		return "", err
 	}
 
-	return fmt.Sprintf("%d%d", f, b), nil
+	return fmt.Sprintf("%d%05d", f, b), nil
 }
 
 // Need to twist the tag number into the format
